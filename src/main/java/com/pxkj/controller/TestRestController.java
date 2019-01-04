@@ -22,7 +22,7 @@ public class TestRestController {
 
     @GetMapping(value = "/testAnalyze")
     public JSONObject testAnalyze() {
-        String object = restTemplate.getForObject("http://localhost:9200/megacorp/_analyze?analyzer={1}&text={2}",
+        String object = restTemplate.getForObject("http://192.168.163.129:9200/megacorp/_analyze?analyzer={1}&text={2}",
                 String.class, "ik_max_word", "测试中文分词");
         return JSON.parseObject(object);
     }
@@ -57,7 +57,7 @@ public class TestRestController {
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_JSON);
         HttpEntity<JSONObject> entity = new HttpEntity<>(map, headers);
-        ResponseEntity<String> responseEntity = restTemplate.exchange("http://localhost:9200/megacorp", HttpMethod.PUT, entity, String.class);
+        ResponseEntity<String> responseEntity = restTemplate.exchange("http://192.168.163.129:9200/megacorp", HttpMethod.PUT, entity, String.class);
         String body = responseEntity.getBody();
         JSONObject obj = JSON.parseObject(body);
         return obj;
@@ -72,7 +72,7 @@ public class TestRestController {
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_JSON);
         HttpEntity<Article> entity = new HttpEntity<>(article, headers);
-        ResponseEntity<String> responseEntity = restTemplate.exchange("http://localhost:9200/megacorp/blog", HttpMethod.POST, entity, String.class);
+        ResponseEntity<String> responseEntity = restTemplate.exchange("http://192.168.163.129:9200/megacorp/blog", HttpMethod.POST, entity, String.class);
         String body = responseEntity.getBody();
         JSONObject obj = JSON.parseObject(body);
         return obj;
@@ -80,7 +80,7 @@ public class TestRestController {
 
     @GetMapping(value = "/searchAll")
     public JSONObject searchAll(){
-        String object = restTemplate.postForObject("http://localhost:9200/megacorp/blog/_search", HttpEntity.EMPTY, String.class);
+        String object = restTemplate.postForObject("http://192.168.163.129:9200/megacorp/blog/_search", HttpEntity.EMPTY, String.class);
         JSONObject obj = JSON.parseObject(object);
         return obj;
     }
@@ -111,7 +111,7 @@ public class TestRestController {
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_JSON);
         HttpEntity<JSONObject> entity = new HttpEntity<>(query, headers);
-        ResponseEntity<String> responseEntity = restTemplate.exchange("http://localhost:9200/megacorp/blog/_search", HttpMethod.POST, entity, String.class);
+        ResponseEntity<String> responseEntity = restTemplate.exchange("http://192.168.163.129:9200/megacorp/blog/_search", HttpMethod.POST, entity, String.class);
         String body = responseEntity.getBody();
         return JSON.parseObject(body);
     }
