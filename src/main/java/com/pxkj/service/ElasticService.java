@@ -129,13 +129,13 @@ public class ElasticService {
             Map<String, HighlightField> highlightFields = hit.getHighlightFields();
             HighlightField field = highlightFields.get("content");
             Text[] fragments = field.getFragments();
-            String content = "";
+            StringBuilder content = new StringBuilder();
             for (Text text : fragments) {
-                content += text;
+                content.append(text);
             }
             float score = hit.getScore();
             map.put("_score", score);
-            map.put("_highlight", content);
+            map.put("_highlight", content.toString());
             map.put("totalHits", totalHits);
             result.add(map);
         }
