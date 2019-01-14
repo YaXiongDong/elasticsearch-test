@@ -30,7 +30,7 @@ public class TestRestController {
     @GetMapping(value = "/createIndex")
     public JSONObject createIndex() {
         JSONObject id = new JSONObject();
-        id.put("type", "integer");
+        id.put("type", "long");
         JSONObject title = new JSONObject();
         title.put("type", "text");
         JSONObject content = new JSONObject();
@@ -46,10 +46,17 @@ public class TestRestController {
         article.put("properties", properties);
         JSONObject mappings = new JSONObject();
         mappings.put("article", article);
+        JSONObject settings = new JSONObject();
+        settings.put("refresh_interval", "5s");
+        settings.put("number_of_shards", 3);
+        settings.put("number_of_replicas", 1);
+        JSONObject map = new JSONObject();
+        map.put("settings", settings);
+        map.put("mappings", mappings);
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_JSON);
-        HttpEntity<JSONObject> entity = new HttpEntity<>(mappings, headers);
-        ResponseEntity<String> responseEntity = restTemplate.exchange("http://192.168.163.129:9200/test_article", HttpMethod.PUT, entity, String.class);
+        HttpEntity<JSONObject> entity = new HttpEntity<>(map, headers);
+        ResponseEntity<String> responseEntity = restTemplate.exchange("http://localhost:9200/test_article", HttpMethod.PUT, entity, String.class);
         String body = responseEntity.getBody();
         JSONObject obj = JSON.parseObject(body);
         return obj;
